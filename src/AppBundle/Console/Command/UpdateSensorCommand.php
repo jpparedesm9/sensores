@@ -11,7 +11,7 @@ use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\LexerConfig;
 use AppBundle\Entity\Test;
 
-class UpdateCategoriesCommand extends ContainerAwareCommand
+class UpdateSensorCommand extends ContainerAwareCommand
 {
 
     protected function configure()
