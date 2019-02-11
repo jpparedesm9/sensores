@@ -41,6 +41,10 @@ class UpdateSensorCommand extends ContainerAwareCommand
       $interpreter = new Interpreter();
       $lineNumber = 0;
       $interpreter->addObserver(function(array $columns) use (&$lineNumber) {
+        $lineNumber += 1;
+        if ($lineNumber === 1) {
+           return;
+        }
           $testObj=new SensorInfo();
           $testObj->setStation($columns[0]);
           $testObj->setCo($columns[2]);
@@ -59,10 +63,7 @@ class UpdateSensorCommand extends ContainerAwareCommand
           $em = $this->getContainer()->get('doctrine')->getEntityManager();
           $em->persist($testObj);
           $em->flush();
-          $lineNumber += 1;
-          if ($lineNumber === 1) {
-             return;
-          }
+
       // treat $columns here
       });
 
