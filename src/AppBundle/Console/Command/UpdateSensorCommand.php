@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Goodby\CSV\Import\Standard\Lexer;
 use Goodby\CSV\Import\Standard\Interpreter;
 use Goodby\CSV\Import\Standard\LexerConfig;
-use AppBundle\Entity\Test;
+use AppBundle\Entity\SensorInfo;
 
 class UpdateSensorCommand extends ContainerAwareCommand
 {
@@ -29,7 +29,7 @@ class UpdateSensorCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-      $filename="hola.csv";
+      $filename="var_contaminacion.csv";
       $uploadDir = $this->getContainer()->get('kernel')->getRootDir() . '/../uploads/';
 
       $path=$uploadDir.$filename;
@@ -41,10 +41,21 @@ class UpdateSensorCommand extends ContainerAwareCommand
       $interpreter = new Interpreter();
       $lineNumber = 0;
       $interpreter->addObserver(function(array $columns) use (&$lineNumber) {
-          $testObj=new Test();
-          $testObj->setHumedad($columns[0]);
-          $testObj->setVelocidad($columns[1]);
-          $testObj->setCalcio($columns[2]);
+          $testObj=new SensorInfo();
+          $testObj->setStation($columns[0]);
+          $testObj->setCo($columns[2]);
+          $testObj->setDir($columns[3]);
+          $testObj->setHum($columns[4]);
+          $testObj->setLlu($columns[5]);
+          $testObj->setNo2($columns[6]);
+          $testObj->setO3($columns[7]);
+          $testObj->setPm25($columns[8]);
+          $testObj->setPm10($columns[9]);
+          $testObj->setPre($columns[10]);
+          $testObj->setRs($columns[11]);
+          $testObj->setSo2($columns[12]);
+          $testObj->setTmp($columns[13]);
+          $testObj->setVel($columns[14]);
           $em = $this->getContainer()->get('doctrine')->getEntityManager();
           $em->persist($testObj);
           $em->flush();

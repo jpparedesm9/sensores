@@ -126,6 +126,10 @@ class SensorInfo
      */
     private $vel;
 
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     /**
      * Get id
@@ -497,4 +501,3 @@ class SensorInfo
         return $this->vel;
     }
 }
-
