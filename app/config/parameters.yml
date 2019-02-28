@@ -2,8 +2,8 @@
 parameters:
     database_host: 127.0.0.1
     database_port: null
-    database_name: sensores
-    database_user: root
+    database_name: DataSensorDB
+    database_user: sensoruser
     database_password: Mn87be3i
     mailer_transport: smtp
     mailer_host: 127.0.0.1
