@@ -1,7 +1,7 @@
 # This file is auto-generated during the composer install
 parameters:
     database_host: 201.159.223.81
-    database_port: null
+    database_port: 3306
     database_name: DataSensorDB
     database_user: sensoruser
     database_password: Mn87be3i
