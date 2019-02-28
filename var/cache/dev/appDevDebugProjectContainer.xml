@@ -94,8 +94,8 @@
     <parameter key="kernel.container_class">appDevDebugProjectContainer</parameter>
     <parameter key="container.autowiring.strict_mode">true</parameter>
     <parameter key="container.dumper.inline_class_loader">true</parameter>
-    <parameter key="database_host">127.0.0.1</parameter>
-    <parameter key="database_port">null</parameter>
+    <parameter key="database_host">201.159.223.81</parameter>
+    <parameter key="database_port">3306</parameter>
     <parameter key="database_name">DataSensorDB</parameter>
     <parameter key="database_user">sensoruser</parameter>
     <parameter key="database_password">Mn87be3i</parameter>
@@ -1583,6 +1583,14 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument type="service" id="debug.debug_handlers_listener"/>
+          <argument>configure</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
+        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -3617,8 +3625,8 @@
     <service id="doctrine.dbal.default_connection" class="Doctrine\DBAL\Connection" public="true">
       <argument type="collection">
         <argument key="driver">pdo_mysql</argument>
-        <argument key="host">127.0.0.1</argument>
-        <argument key="port">null</argument>
+        <argument key="host">201.159.223.81</argument>
+        <argument key="port">3306</argument>
         <argument key="dbname">DataSensorDB</argument>
         <argument key="user">sensoruser</argument>
         <argument key="password">Mn87be3i</argument>

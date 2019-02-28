@@ -1,6 +1,6 @@
 <?php
 
-namespace ContainerVzlgvlj;
+namespace ContainerJc21xyo;
 
 use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -1315,6 +1315,9 @@ class appDevDebugProjectContainer extends Container
         $instance->addListener('kernel.request', array(0 => function () {
             return ${($_ = isset($this->services['debug.debug_handlers_listener']) ? $this->services['debug.debug_handlers_listener'] : $this->getDebug_DebugHandlersListenerService()) && false ?: '_'};
         }, 1 => 'configure'), 2048);
+        $instance->addListener('console.command', array(0 => function () {
+            return ${($_ = isset($this->services['debug.debug_handlers_listener']) ? $this->services['debug.debug_handlers_listener'] : $this->getDebug_DebugHandlersListenerService()) && false ?: '_'};
+        }, 1 => 'configure'), 2048);
         $instance->addListener('kernel.request', array(0 => function () {
             return ${($_ = isset($this->services['router_listener']) ? $this->services['router_listener'] : $this->getRouterListenerService()) && false ?: '_'};
         }, 1 => 'onKernelRequest'), 32);
@@ -2217,8 +2220,8 @@ class appDevDebugProjectContainer extends Container
             'kernel.container_class' => 'appDevDebugProjectContainer',
             'container.autowiring.strict_mode' => true,
             'container.dumper.inline_class_loader' => true,
-            'database_host' => '127.0.0.1',
-            'database_port' => NULL,
+            'database_host' => '201.159.223.81',
+            'database_port' => 3306,
             'database_name' => 'DataSensorDB',
             'database_user' => 'sensoruser',
             'database_password' => 'Mn87be3i',
