@@ -31,55 +31,45 @@ class UpdateSensorCommand extends ContainerAwareCommand
     {
       $filename="var_contaminacion.csv";
       $uploadDir = $this->getContainer()->get('kernel')->getRootDir() . '/../uploads/';
+      $processed = $this->getContainer()->get('kernel')->getRootDir() . '/../processed/';
+      $files =array_diff(scandir($uploadDir), array('.', '..'));
+      foreach($files as $filename){
+        $path=$uploadDir.$filename;
 
-      $path=$uploadDir.$filename;
+        $output->writeln($uploadDir);
 
-      $output->writeln($uploadDir);
+        $config = new LexerConfig();
+        $lexer = new Lexer($config);
+        $interpreter = new Interpreter();
+        $lineNumber = 0;
+        $interpreter->addObserver(function(array $columns) use (&$lineNumber) {
+          $lineNumber += 1;
+          if ($lineNumber === 1) {
+             return;
+          }
+            $testObj=new SensorInfo();
+            $testObj->setStation($columns[0]);
+            $testObj->setCo($columns[2]);
+            $testObj->setDir($columns[3]);
+            $testObj->setHum($columns[4]);
+            $testObj->setLlu($columns[5]);
+            $testObj->setNo2($columns[6]);
+            $testObj->setO3($columns[7]);
+            $testObj->setPm25($columns[8]);
+            $testObj->setPm10($columns[9]);
+            $testObj->setPre($columns[10]);
+            $testObj->setRs($columns[11]);
+            $testObj->setSo2($columns[12]);
+            $testObj->setTmp($columns[13]);
+            $testObj->setVel($columns[14]);
+            $em = $this->getContainer()->get('doctrine')->getEntityManager();
+            $em->persist($testObj);
+            $em->flush();
+        });
 
-      $config = new LexerConfig();
-      $lexer = new Lexer($config);
-      $interpreter = new Interpreter();
-      $lineNumber = 0;
-      $interpreter->addObserver(function(array $columns) use (&$lineNumber) {
-        $lineNumber += 1;
-        if ($lineNumber === 1) {
-           return;
-        }
-          $testObj=new SensorInfo();
-          $testObj->setStation($columns[0]);
-          $testObj->setCo($columns[2]);
-          $testObj->setDir($columns[3]);
-          $testObj->setHum($columns[4]);
-          $testObj->setLlu($columns[5]);
-          $testObj->setNo2($columns[6]);
-          $testObj->setO3($columns[7]);
-          $testObj->setPm25($columns[8]);
-          $testObj->setPm10($columns[9]);
-          $testObj->setPre($columns[10]);
-          $testObj->setRs($columns[11]);
-          $testObj->setSo2($columns[12]);
-          $testObj->setTmp($columns[13]);
-          $testObj->setVel($columns[14]);
-          $em = $this->getContainer()->get('doctrine')->getEntityManager();
-          $em->persist($testObj);
-          $em->flush();
-
-      // treat $columns here
-      });
-
-      $lexer->parse($path, $interpreter);
-
-      //$em = $this->getContainer()->get('doctrine.orm.entity_manager');
-      //$categoryRepository = $this->getContainer()->get('sylius.repository.taxon')->getTopRandomCategories(20);
-      //$taxonManager = $this->getContainer()->get('sylius.manager.taxon');
-      //$name = $input->getArgument('name');
-      //$output->writeln("Updating Categories....");
-      //foreach ($categoryRepository as $category){
-        //$numberProducts = $this->getContainer()->get('sylius.repository.product_taxon')->getNumProductsByCategory($category->getId());
-        //$category->setTotalItems($numberProducts);
-        //$taxonManager->persist($category);
-      //}
-      //$taxonManager->flush();
-      $output->writeln("Updated!");
+        $lexer->parse($path, $interpreter);
+        rename($uploadDir.$filename, $processed . pathinfo($filename, PATHINFO_BASENAME));
+        $output->writeln("Updated!");
+      }
     }
 }
